@@ -8,6 +8,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+// NewEngine constructs a new translation engine.
 func NewEngine(path, defaultLocale string, trim bool) (*Engine, error) {
 	e := &Engine{
 		Path:  path,
@@ -55,6 +56,7 @@ func NewEngine(path, defaultLocale string, trim bool) (*Engine, error) {
 	return e, nil
 }
 
+// Engine represent a storage of locales.
 type Engine struct {
 	Path          string
 	DefaultLocale *Locale
@@ -62,10 +64,16 @@ type Engine struct {
 	Langs map[string]*Locale
 }
 
+// Lang returns a *Locale by name.
 func (e *Engine) Lang(localeName string) *Locale {
+	if e.Langs == nil {
+		panic("tr: default engine is not sent, see tr.Init()")
+	}
+
 	return e.Langs[localeName]
 }
 
+// Tr provides default locale's translation of path.
 func (e *Engine) Tr(path string) string {
 	if e.Langs == nil {
 		panic("tr: default engine is not sent, see tr.Init()")

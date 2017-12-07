@@ -9,6 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
+// NewLocale constructs a new locale.
 func NewLocale(root, name string, paths []string, trim bool) (*Locale, error) {
 	c := &Locale{
 		Root: root,
@@ -47,6 +48,9 @@ func NewLocale(root, name string, paths []string, trim bool) (*Locale, error) {
 				}
 			}
 
+			// Windows?
+			rel = strings.Replace(rel, "\\", "/", -1)
+
 			c.tree.Insert(rel, string(data))
 		} else {
 			return nil, errors.Wrap(err, "tr: can't open file")
@@ -56,6 +60,7 @@ func NewLocale(root, name string, paths []string, trim bool) (*Locale, error) {
 	return c, nil
 }
 
+// Locale is a radix tree of available translation paths.
 type Locale struct {
 	Root string
 	Name string
@@ -64,6 +69,7 @@ type Locale struct {
 	tree *radix.Tree
 }
 
+// Tr returns locale's translation for path.
 func (c *Locale) Tr(path string) string {
 	obj, ok := c.tree.Get(path)
 	if !ok {

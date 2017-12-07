@@ -12,16 +12,19 @@ Here's how `tr` works:
    ```
    lang
    ├── en
-   │   ├── piece-one.html
+   │   ├── hello.txt
    │   └── inner
    │       └── text.txt
    ├── fr
-   │   ├── piece-one.md
-   │   └── piece-two.txt
+   │   ├── hello.txt
+   │   └── inner
+   │       └── text.txt
    └── ru
-       └── piece-one.txt
+       ├── hello.txt
+       └── inner
+           └── text.html
 
-   4 directories, 5 files
+   6 directories, 6 files
    ```
 
    Your files could be of any extension, it doesn't really matter,
@@ -56,7 +59,7 @@ Here's how `tr` works:
 
 	// Shadowing
 	tr := tr.Lang("fr")
-	fmt.Println(tr.Tr("text"))
+	fmt.Println(tr.Tr("inner/text"))
 	```
 
 Pass an optional third `true` argument to `tr.Init()` if you wish
