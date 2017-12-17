@@ -67,10 +67,14 @@ type Engine struct {
 // Lang returns a *Locale by name.
 func (e *Engine) Lang(localeName string) *Locale {
 	if e.Langs == nil {
-		panic("tr: default engine is not sent, see tr.Init()")
+		panic("tr: default engine is not set, see tr.Init()")
 	}
 
-	return e.Langs[localeName]
+	if l, ok := e.Langs[localeName]; ok {
+		return l
+	}
+
+	panic("tr: Unknown localeName")
 }
 
 // Tr provides default locale's translation of path.
