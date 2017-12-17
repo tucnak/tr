@@ -1,4 +1,5 @@
 # tr
+
 > Easy drop-in i18n solution for Go applications.
 
 [![GoDoc](https://godoc.org/github.com/tucnak/tr?status.svg)](https://godoc.org/github.com/tucnak/tr)
@@ -9,6 +10,7 @@ I couldn't find a single solution that would utilize the file system.
 Here's how `tr` works:
 
 1. You have to create a locales directory, e.g. `$ tree lang`:
+
    ```
    lang
    ├── en
@@ -31,36 +33,39 @@ Here's how `tr` works:
    since `tr` ignores extensions anyway.
 
 2. Init `tr` properly in your program:
-    ```go
-	package main
 
-	import (
-		"fmt"
-		"os"
+   ```go
+   package main
 
-		"github.com/tucnak/tr"
-	)
+   import (
+   	"fmt"
+   	"os"
 
-	func init() {
-		// tr.Init(localesDirectory, defaultLocale)
-		if err := tr.Init("lang", "en"); err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-	}
-    ```
+   	"github.com/tucnak/tr"
+   )
+
+   func init() {
+   	// tr.Init(localesDirectory, defaultLocale)
+       engine, err := tr.Init("lang", "en")
+   	if err != nil {
+   		fmt.Println(err)
+   		os.Exit(1)
+   	}
+   }
+   ```
 
 3. Use simple syntax for i18n:
-	```go
-    // Inline syntax:
-	fmt.Println("In English:", tr.Lang("en").Tr("hello"))
-	fmt.Println("In French:", tr.Lang("fr").Tr("hello"))
-	fmt.Println("In Russian:", tr.Lang("ru").Tr("hello"))
 
-	// Shadowing
-	tr := tr.Lang("fr")
-	fmt.Println(tr.Tr("inner/text"))
-	```
+   ```go
+   // Inline syntax:
+   fmt.Println("In English:", engine.Lang("en").Tr("hello"))
+   fmt.Println("In French:", engine.Lang("fr").Tr("hello"))
+   fmt.Println("In Russian:", engine.Lang("ru").Tr("hello"))
+
+   // Shadowing
+   engine := engine.Lang("fr")
+   fmt.Println(engine.Tr("inner/text"))
+   ```
 
 Pass an optional third `true` argument to `tr.Init()` if you wish
 to trim all `\n`s from the end of the string returned.
