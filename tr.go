@@ -7,7 +7,7 @@ func init() {
 	DefaultEngine = &Engine{}
 }
 
-// Pass TrimEnd as an optional 3rd argument to trim \n ending.
+// TrimEnd is an optional 3rd argument to trim \n ending.
 const TrimEnd = true
 
 // Init is used to set the locales directory, as well as the
